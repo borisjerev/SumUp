@@ -1,5 +1,6 @@
 package com.borisjerev.sumUp.controller;
 
+import com.borisjerev.sumUp.exception.BadTasksRequestException;
 import com.borisjerev.sumUp.model.TaskResponse;
 import com.borisjerev.sumUp.model.TasksRequest;
 import com.borisjerev.sumUp.service.api.OrderTasksServiceInterface;
@@ -20,11 +21,17 @@ public class ProcessingController {
 
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
     public ResponseEntity<List<TaskResponse>> orderTasks(@RequestBody TasksRequest tasks) {
+        if (tasks.getTasks() == null) {
+            throw new BadTasksRequestException("No tasks provided");
+        }
         return new ResponseEntity<>(orderTaskService.orderTasks(tasks.getTasks()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/bashScript", method = RequestMethod.GET)
     public ResponseEntity<String> bashScript(@RequestBody TasksRequest tasks) {
+        if (tasks.getTasks() == null) {
+            throw new BadTasksRequestException("No tasks provided");
+        }
         String bashScriptRepresentation = orderTaskService.bashScriptRepresentation(tasks.getTasks());
         return new ResponseEntity<>(bashScriptRepresentation, HttpStatus.OK);
     }
