@@ -12,7 +12,7 @@ import java.util.Map;
 @ControllerAdvice
 public class ControllerAdvisor {
     @ExceptionHandler(BadTasksRequestException.class)
-    public ResponseEntity<Map> handleBasTasksRequestException(BadTasksRequestException ex) {
+    public ResponseEntity<Map<String, Object>> handleBasTasksRequestException(BadTasksRequestException ex) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
