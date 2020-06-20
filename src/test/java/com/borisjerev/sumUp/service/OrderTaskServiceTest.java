@@ -63,7 +63,5 @@ public class OrderTaskServiceTest {
         assertEquals(taskResponse.get(1).getName(), "task-3");
         assertEquals(taskResponse.get(2).getName(), "task-2");
         assertEquals(taskResponse.get(3).getName(), "task-4");
-
-
     }
 }
