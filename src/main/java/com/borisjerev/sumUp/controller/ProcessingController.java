@@ -21,7 +21,7 @@ public class ProcessingController {
 
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
     public ResponseEntity<List<TaskResponse>> orderTasks(@RequestBody TasksRequest tasks) {
-        if (tasks.getTasks() == null) {
+        if (tasks.getTasks() == null || tasks.getTasks().isEmpty()) {
             throw new BadTasksRequestException("No tasks provided");
         }
         return new ResponseEntity<>(orderTaskService.orderTasks(tasks.getTasks()), HttpStatus.OK);
@@ -29,7 +29,7 @@ public class ProcessingController {
 
     @RequestMapping(value = "/bashScript", method = RequestMethod.GET)
     public ResponseEntity<String> bashScript(@RequestBody TasksRequest tasks) {
-        if (tasks.getTasks() == null) {
+        if (tasks.getTasks() == null || tasks.getTasks().isEmpty()) {
             throw new BadTasksRequestException("No tasks provided");
         }
         String bashScriptRepresentation = orderTaskService.bashScriptRepresentation(tasks.getTasks());
