@@ -29,22 +29,22 @@ public class OrderTasksServiceImpl implements OrderTasksServiceInterface {
         return builder.toString();
     }
 
-    private void implementOrder(List<TaskRequest> tasks, List<String> dependsOn, List<TaskResponse> orderedTasks) {
+    private void implementOrder(List<TaskRequest> tasks, List<String> dependenciesResolved, List<TaskResponse> orderedTasks) {
         Iterator<TaskRequest> iterator = tasks.iterator();
         if (!iterator.hasNext()) {
             return;
         }
+        List<String> addedDependencies = new ArrayList<>();
         while(iterator.hasNext()) {
             TaskRequest taskRequest = iterator.next();
-            if (areDependenciesSatisfied(taskRequest.getRequires(), dependsOn)) {
-                dependsOn.add(taskRequest.getName());
+            if (areDependenciesSatisfied(taskRequest.getRequires(), dependenciesResolved)) {
+                addedDependencies.add(taskRequest.getName());
                 orderedTasks.add(new TaskResponse(taskRequest.getName(), taskRequest.getCommand()));
                 iterator.remove();
-                break;
             }
         }
-
-        implementOrder(tasks, dependsOn, orderedTasks) ;
+        dependenciesResolved.addAll(addedDependencies);
+        implementOrder(tasks, dependenciesResolved, orderedTasks) ;
     }
 
     private boolean areDependenciesSatisfied(List<String> requires, List<String> alreadyOrdered) {
