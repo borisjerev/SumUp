@@ -11,8 +11,8 @@ import java.util.Map;
 
 @ControllerAdvice
 public class ControllerAdvisor {
-    @ExceptionHandler(BadTasksRequestException.class)
-    public ResponseEntity<Map<String, Object>> handleBasTasksRequestException(BadTasksRequestException ex) {
+    @ExceptionHandler(NoTasksFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleBasTasksRequestException(NoTasksFoundException ex) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
