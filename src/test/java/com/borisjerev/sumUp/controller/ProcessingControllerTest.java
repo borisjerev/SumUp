@@ -16,6 +16,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,11 +32,21 @@ public class ProcessingControllerTest {
     private OrderTasksServiceInterface orderTaskService;
 
     @Test
-    public void shouldReturnBadRequest() throws Exception {
+    public void no_tasks_bad_request_exception() throws Exception {
         TasksRequest tasksRequest = new TasksRequest();
         this.mockMvc.perform(get("/tasks")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new ObjectMapper().writeValueAsString(tasksRequest)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void empty_tasks_bad_request_exception() throws Exception {
+        TasksRequest tasksRequest = new TasksRequest();
+        tasksRequest.setTasks(new ArrayList<>());
+        this.mockMvc.perform(get("/tasks")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(tasksRequest)))
                 .andExpect(status().isBadRequest());
     }
 }
